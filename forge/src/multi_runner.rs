@@ -60,6 +60,7 @@ impl MultiContractRunnerBuilder {
         let mut deployable_contracts: BTreeMap<String, (Abi, ethers::prelude::Bytes)> =
             Default::default();
 
+        println!("\nContract bytecode sizes :\n");
         for (fname, contract) in contracts {
             let (maybe_abi, maybe_deploy_bytes, maybe_runtime_bytes) = contract.into_parts();
             if let (Some(abi), Some(bytecode)) = (maybe_abi, maybe_deploy_bytes) {
@@ -79,6 +80,7 @@ impl MultiContractRunnerBuilder {
                 if let Some(runtime_code) = maybe_runtime_bytes {
                     known_contracts.insert(contract_name.to_string(), (abi, runtime_code.to_vec()));
                 }
+                println!("{:·<20}{:>6} B", split[1], bytecode.to_vec().len());
             }
         }
 
